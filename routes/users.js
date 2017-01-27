@@ -5,15 +5,12 @@ var models = require('../server/models/index');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   models.User.findAll({}).then(function(users) {
-    res.render('users/index', {
-      title: 'all fazbook users',
-      users: users
-    });
+    res.render('users/index', { users: users });
   });
 });
 
 router.get('/new', function(req, res, next) {
-  res.render('users/new', { title: 'new fazbook user' });
+  res.render('users/new');
 });
 
 router.post('/', function(req, res, next) {
@@ -24,6 +21,12 @@ router.post('/', function(req, res, next) {
     dob: req.body.dob
   }).then(function() {
     res.redirect('/users')
+  });
+});
+
+router.get('/:id', function(req, res, next) {
+  models.User.findById(req.params.id).then(function(user) {
+    res.render('users/show', { user: user });
   });
 });
 
